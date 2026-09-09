@@ -8,8 +8,8 @@ document.getElementById('signup-btn').addEventListener('click', async () => {
   const username = document.getElementById('username').value.trim().toLowerCase();
   const pin = document.getElementById('pin').value.trim();
 
-  if (!username || !pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) {
-    document.getElementById('auth-error').textContent = "Username and 4-digit PIN required.";
+  if (!username || !pin || pin.length !== 6 || !/^\d{6}$/.test(pin)) {
+    document.getElementById('auth-error').textContent = "Username and 6-digit PIN are required.";
     return;
   }
 
@@ -46,7 +46,7 @@ document.getElementById('login-btn').addEventListener('click', async () => {
   const pin = document.getElementById('pin').value.trim();
 
   if (!username || !pin) {
-    document.getElementById('auth-error').textContent = "Enter username and PIN.";
+    document.getElementById('auth-error').textContent = "Enter username and 6-digit PIN.";
     return;
   }
 
