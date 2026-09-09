@@ -1,17 +1,19 @@
 // js/core/firebaseConfig.js
 
-// Initialize Firebase (compat mode)
+// Firebase configuration (compat SDK)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBwJzpnmSV845YrDDZYOVntL6sfFAVGaag",
+  authDomain: "access-warrior-1d789.firebaseapp.com",
+  projectId: "access-warrior-1d789",
+  storageBucket: "access-warrior-1d789.firebasestorage.app",
+  messagingSenderId: "875315539922",
+  appId: "1:875315539922:web:df434dfd4316c0a457620b",
+  measurementId: "G-N9JLL90K1E"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Export references for use in other files
+// Get references to Firebase services
 const auth = firebase.auth();
 const db = firebase.firestore();
