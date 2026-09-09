@@ -1,0 +1,29 @@
+<div id="app">
+  <!-- Loading screen -->
+  <div class="screen active" id="loading-screen">
+    <h1>Loading...</h1>
+  </div>
+
+  <!-- Authentication screen -->
+  <div class="screen" id="auth-screen">
+    <h2>Welcome</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <input type="text" id="username" placeholder="Username (only for signup)" style="display:none;">
+    <button id="login-btn">Login</button>
+    <button id="signup-btn">Sign Up</button>
+    <p id="auth-error" style="color:red;"></p>
+  </div>
+
+  <!-- Lobby screen (to be filled later) -->
+  <div class="screen" id="lobby-screen">
+    <h2>Game Lobby</h2>
+    <div id="lobby-content"></div>
+  </div>
+
+  <!-- Role reveal screen (shown after game starts) -->
+  <div class="screen" id="role-screen">
+    <h2>Your Role</h2>
+    <div id="role-content"></div>
+  </div>
+</div>
