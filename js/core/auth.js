@@ -1,50 +1,67 @@
 // js/core/auth.js
 
-// Show/hide username field on signup
-document.getElementById('signup-btn').addEventListener('click', () => {
-  document.getElementById('username').style.display = 'block';
-  document.getElementById('login-btn').style.display = 'none';
-  document.getElementById('signup-btn').style.display = 'none';
-  document.getElementById('auth-error').textContent = '';
-});
+// Helper: convert username to synthetic email
+function usernameToEmail(username) {
+  return username + "@werewolf.local";
+}
 
-document.getElementById('login-btn').addEventListener('click', async () => {
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-    // Auth state listener will handle screen change
-  } catch (error) {
-    document.getElementById('auth-error').textContent = error.message;
-  }
-});
-
-// Signup flow: first create user, then set username in Firestore
+// Signup
 document.getElementById('signup-btn').addEventListener('click', async () => {
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const username = document.getElementById('username').value.trim();
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const pin = document.getElementById('pin').value.trim();
 
-  if (!username) {
-    document.getElementById('auth-error').textContent = "Username required for signup.";
+  if (!username || !pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+    document.getElementById('auth-error').textContent = "Username and 4-digit PIN are required.";
     return;
   }
 
+  const email = usernameToEmail(username);
+
   try {
-    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-    // Save username to Firestore user document
-    await db.collection('users').doc(userCredential.user.uid).set({
+    // Check username uniqueness first
+    const usernameDoc = await db.collection('usernames').doc(username).get();
+    if (usernameDoc.exists) {
+      document.getElementById('auth-error').textContent = "Username already taken.";
+      return;
+    }
+
+    // Create Firebase Auth user
+    const userCredential = await auth.createUserWithEmailAndPassword(email, pin);
+    const uid = userCredential.user.uid;
+
+    // Reserve username and store profile
+    await db.collection('usernames').doc(username).set({ uid });
+    await db.collection('users').doc(uid).set({
       username: username,
-      email: email,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    // Auth state listener will now show lobby
+
+    // Success -> auth state listener will show lobby
   } catch (error) {
     document.getElementById('auth-error').textContent = error.message;
   }
 });
 
-// Logout function (can be called from lobby)
+// Login
+document.getElementById('login-btn').addEventListener('click', async () => {
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const pin = document.getElementById('pin').value.trim();
+
+  if (!username || !pin) {
+    document.getElementById('auth-error').textContent = "Enter username and PIN.";
+    return;
+  }
+
+  const email = usernameToEmail(username);
+
+  try {
+    await auth.signInWithEmailAndPassword(email, pin);
+    // Auth state listener will handle redirect
+  } catch (error) {
+    document.getElementById('auth-error').textContent = "Invalid username or PIN.";
+  }
+});
+
 function logout() {
   auth.signOut();
 }
