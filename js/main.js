@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   auth.onAuthStateChanged(user => {
     if (user) {
       showScreen('lobby-screen');
-      // We'll fill lobby content later
     } else {
       showScreen('auth-screen');
     }
