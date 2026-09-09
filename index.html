@@ -1,29 +1,73 @@
-<div id="app">
-  <!-- Loading screen -->
-  <div class="screen active" id="loading-screen">
-    <h1>Loading...</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Werewolf - School Game</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Loading screen -->
+    <div class="screen active" id="loading-screen">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+
+    <!-- Authentication screen -->
+    <div class="screen" id="auth-screen">
+      <div class="auth-card">
+        <h1 class="game-title">🐺 Werewolf</h1>
+        <p class="tagline">The classic social deduction game</p>
+        
+        <div class="auth-form">
+          <input type="email" id="email" placeholder="Email" autocomplete="email">
+          <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+          <input type="text" id="username" placeholder="Choose a username" style="display: none;">
+          
+          <button id="login-btn" class="primary-btn">Login</button>
+          <button id="signup-btn" class="secondary-btn">Sign Up</button>
+          
+          <p id="auth-error" class="error-message"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lobby screen -->
+    <div class="screen" id="lobby-screen">
+      <div class="lobby-container">
+        <h2>Game Lobby</h2>
+        <div id="lobby-content">
+          <!-- Lobby content will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Role reveal screen -->
+    <div class="screen" id="role-screen">
+      <div class="role-container">
+        <h2>Your Role</h2>
+        <div id="role-content"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Authentication screen -->
-  <div class="screen" id="auth-screen">
-    <h2>Welcome</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <input type="text" id="username" placeholder="Username (only for signup)" style="display:none;">
-    <button id="login-btn">Login</button>
-    <button id="signup-btn">Sign Up</button>
-    <p id="auth-error" style="color:red;"></p>
-  </div>
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
-  <!-- Lobby screen (to be filled later) -->
-  <div class="screen" id="lobby-screen">
-    <h2>Game Lobby</h2>
-    <div id="lobby-content"></div>
-  </div>
+  <!-- Core scripts -->
+  <script src="js/core/firebaseConfig.js"></script>
+  <script src="js/core/auth.js"></script>
+  <script src="js/core/lobby.js"></script>
+  <script src="js/core/engine.js"></script>
 
-  <!-- Role reveal screen (shown after game starts) -->
-  <div class="screen" id="role-screen">
-    <h2>Your Role</h2>
-    <div id="role-content"></div>
-  </div>
-</div>
+  <!-- Game module -->
+  <script src="js/games/werewolf/rules.js"></script>
+  <script src="js/games/werewolf/ui.js"></script>
+
+  <!-- Main app -->
+  <script src="js/main.js"></script>
+</body>
+</html>
